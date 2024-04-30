@@ -16,6 +16,7 @@ namespace progetto_capolavoro
 		public List<string> Lsquadre;
 		public bool [] indici;
 		public int indexsqcasa;
+		public int ngiornata;
 		public int indexsqtrasf;
 		public int npartite;
 		public Form1()
@@ -23,6 +24,7 @@ namespace progetto_capolavoro
 			InitializeComponent();
 			indexsqcasa = 0;
 			indexsqtrasf = 0;
+			ngiornata = 1;
 			indici = new bool[20];
 			Lsquadre = new List<string>();
 			npartite= 0;
@@ -66,6 +68,7 @@ namespace progetto_capolavoro
 				button1.Hide();
 				button2.Show();
 			}
+		
 			indexsqcasa = EstIndici(r, indici);
 			indexsqtrasf = EstIndici(r, indici);
 			textBox1.Text = Lsquadre[indexsqcasa - 1];
@@ -91,7 +94,7 @@ namespace progetto_capolavoro
 		private void button2_Click(object sender, EventArgs e)
 		{
 			
-			int ngiornata = 2;
+			
 			listView1.Items.Clear();
 			listView2.Items.Clear();
 			textBox1.Text = "";
@@ -122,8 +125,17 @@ namespace progetto_capolavoro
 			Lsquadre.Add("Sassuolo");
 			Lsquadre.Add("Torino");
 			Lsquadre.Add("Udinese");
-			label4.Text = $"GIORNATA {ngiornata}";
-			ngiornata++;
+			if(ngiornata < 38)
+			{
+				ngiornata++;
+				label4.Text = $"GIORNATA {ngiornata}";
+			}
+			else
+			{
+				MessageBox.Show("Campionato terminato");
+			}
+			button2.Hide();
+			
 		}
 
 
