@@ -16,7 +16,7 @@ namespace progetto_capolavoro
             classifica = new Dictionary<string, int>();
         }
 
-        private void AggiornaClassifica(string sqcasa, string sqtrasf, int golcasa, int goltrasf)
+        public void AggiornaClassifica(string sqcasa, string sqtrasf, int golcasa, int goltrasf)
         {
             if(!classifica.ContainsKey(sqcasa))
             {

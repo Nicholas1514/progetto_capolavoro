@@ -79,8 +79,11 @@ namespace progetto_capolavoro
 			partita.AggiornaPunteggio(golcasa, goltrasf);
 			Campionato campionato = new Campionato();
 			campionato.AggiungiPartita(partita);
+			campionato.AggiornaClassifica(textBox1.Text, textBox2.Text, golcasa, goltrasf);
 			listView1.Items.Add($"{golcasa} - {goltrasf}");
 			listView2.Items.Add(partita.ToString());
+			
+			
 			
 				
 				
@@ -133,6 +136,7 @@ namespace progetto_capolavoro
 			else
 			{
 				MessageBox.Show("Campionato terminato");
+				button1.Hide();
 			}
 			button2.Hide();
 			
