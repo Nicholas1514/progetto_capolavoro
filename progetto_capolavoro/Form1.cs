@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,35 +20,18 @@ namespace progetto_capolavoro
 		public int ngiornata;
 		public int indexsqtrasf;
 		public int npartite;
+		public string path;
 		public Form1()
 		{
 			InitializeComponent();
 			indexsqcasa = 0;
 			indexsqtrasf = 0;
 			ngiornata = 1;
+			path = "squadre.txt";
 			indici = new bool[20];
 			Lsquadre = new List<string>();
 			npartite= 0;
-			Lsquadre.Add("Atalanta");
-			Lsquadre.Add("Bologna");
-			Lsquadre.Add("Cagliari");
-			Lsquadre.Add("Empoli");
-			Lsquadre.Add("Fiorentina");
-			Lsquadre.Add("Frosinone");
-			Lsquadre.Add("Genoa");
-			Lsquadre.Add("Hellas Verona");
-			Lsquadre.Add("Inter");
-			Lsquadre.Add("Juventus");
-			Lsquadre.Add("Lazio");
-			Lsquadre.Add("Lecce");
-			Lsquadre.Add("Milan");
-			Lsquadre.Add("Monza");
-			Lsquadre.Add("Napoli");
-			Lsquadre.Add("Roma");
-			Lsquadre.Add("Salernitana");
-			Lsquadre.Add("Sassuolo");
-			Lsquadre.Add("Torino");
-			Lsquadre.Add("Udinese");
+			PrendiDatiFile(path);
 			button2.Hide();
 		}
 
@@ -56,6 +40,18 @@ namespace progetto_capolavoro
 
 		}
 
+		public void PrendiDatiFile(string path)
+		{
+			string linee;
+			StreamReader sr = new StreamReader(path);
+			while((linee = sr.ReadLine()) != null)
+			{
+				Lsquadre.Add(linee);
+				
+			}
+			sr.Close();
+			MessageBox.Show("Dati inseriti nella lista dal file");
+		}
 		private void button1_Click(object sender, EventArgs e)
 		{
 			listView1.Items.Clear();
@@ -108,26 +104,8 @@ namespace progetto_capolavoro
 			indici = new bool[20];
 			Lsquadre = new List<string>();
 			npartite = 0;
-			Lsquadre.Add("Atalanta");
-			Lsquadre.Add("Bologna");
-			Lsquadre.Add("Cagliari");
-			Lsquadre.Add("Empoli");
-			Lsquadre.Add("Fiorentina");
-			Lsquadre.Add("Frosinone");
-			Lsquadre.Add("Genoa");
-			Lsquadre.Add("Hellas Verona");
-			Lsquadre.Add("Inter");
-			Lsquadre.Add("Juventus");
-			Lsquadre.Add("Lazio");
-			Lsquadre.Add("Lecce");
-			Lsquadre.Add("Milan");
-			Lsquadre.Add("Monza");
-			Lsquadre.Add("Napoli");
-			Lsquadre.Add("Roma");
-			Lsquadre.Add("Salernitana");
-			Lsquadre.Add("Sassuolo");
-			Lsquadre.Add("Torino");
-			Lsquadre.Add("Udinese");
+			PrendiDatiFile(path);
+
 			if(ngiornata < 38)
 			{
 				ngiornata++;
