@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.LinkLabel;
 
 namespace progetto_capolavoro
 {
@@ -15,6 +16,7 @@ namespace progetto_capolavoro
 	{
 
 		public List<string> Lsquadre;
+		public Dictionary<string, int> Classifica;
 		public bool [] indici;
 		public int indexsqcasa;
 		public int ngiornata;
@@ -30,8 +32,10 @@ namespace progetto_capolavoro
 			path = "squadre.txt";
 			indici = new bool[20];
 			Lsquadre = new List<string>();
+			Classifica = new Dictionary<string, int>();
 			npartite= 0;
 			PrendiDatiFile(path);
+			InserimentoChiaviClassifica(path);
 			button2.Hide();
 		}
 
@@ -40,22 +44,52 @@ namespace progetto_capolavoro
 
 		}
 
+		public void InserimentoChiaviClassifica(string path)
+		{
+			string linee;
+			if (File.Exists(path))
+			{
+				StreamReader sr = new StreamReader(path);
+				while ((linee = sr.ReadLine()) != null)
+				{
+					Classifica.Add(linee, 0);
+
+				}
+				sr.Close();
+				MessageBox.Show("Dati inseriti nella dictionary dal file");
+			}
+			else
+			{
+				MessageBox.Show("Il file non esiste");
+
+			}
+		}
+		
 		public void PrendiDatiFile(string path)
 		{
 			string linee;
-			StreamReader sr = new StreamReader(path);
-			while((linee = sr.ReadLine()) != null)
+			if(File.Exists(path))
 			{
-				Lsquadre.Add(linee);
-				
+				StreamReader sr = new StreamReader(path);
+				while ((linee = sr.ReadLine()) != null)
+				{
+					Lsquadre.Add(linee);
+
+				}
+				sr.Close();
+				MessageBox.Show("Dati inseriti nella lista dal file");
 			}
-			sr.Close();
-			MessageBox.Show("Dati inseriti nella lista dal file");
+			else
+			{
+				MessageBox.Show("Il file non esiste");
+
+			}
+			
 		}
 		private void button1_Click(object sender, EventArgs e)
 		{
 			listView1.Items.Clear();
-
+			
 			Random r = new Random();
 			npartite++;
 			if(npartite == 10)
@@ -63,6 +97,7 @@ namespace progetto_capolavoro
 				MessageBox.Show("Hai aggiunto tutte le partite per questa giornata");
 				button1.Hide();
 				button2.Show();
+				
 			}
 		
 			indexsqcasa = EstIndici(r, indici);
@@ -75,15 +110,33 @@ namespace progetto_capolavoro
 			partita.AggiornaPunteggio(golcasa, goltrasf);
 			Campionato campionato = new Campionato();
 			campionato.AggiungiPartita(partita);
-			campionato.AggiornaClassifica(textBox1.Text, textBox2.Text, golcasa, goltrasf);
+			//campionato.AggiornaClassifica(textBox1.Text, textBox2.Text, golcasa, goltrasf);
+			if(partita.GolCasa > partita.GolTrasf)
+			{
+				Classifica[partita.SqCasa] += 3;
+			}
+			else if(partita.GolTrasf > partita.GolCasa)
+			{
+				Classifica[partita.SqTrasf] += 3;
+			}
+			else
+			{
+				Classifica[partita.SqCasa] += 1;
+				Classifica[partita.SqTrasf] += 1;
+			}
 			listView1.Items.Add($"{golcasa} - {goltrasf}");
 			listView2.Items.Add(partita.ToString());
-			
-			
-			
-				
-				
-			
+			/*
+			listView3.Items.Add($"{partita.SqCasa} " + Classifica[partita.SqCasa].ToString());
+			listView3.Items.Add($"{partita.SqTrasf} " + Classifica[partita.SqTrasf].ToString());
+			*/
+			dataGridView1.Rows.Add(partita.SqCasa, Classifica[partita.SqCasa].ToString());
+			dataGridView1.Rows.Add(partita.SqTrasf, Classifica[partita.SqTrasf].ToString());
+			DataGridViewColumn punti = dataGridView1.Columns[1];
+			dataGridView1.Sort(punti,ListSortDirection.Descending);
+
+
+
 		}
 
 
@@ -96,6 +149,7 @@ namespace progetto_capolavoro
 			
 			listView1.Items.Clear();
 			listView2.Items.Clear();
+			dataGridView1.Rows.Clear();
 			textBox1.Text = "";
 			textBox2.Text = "";
 			button1.Show();
@@ -114,13 +168,27 @@ namespace progetto_capolavoro
 			else
 			{
 				MessageBox.Show("Campionato terminato");
+				int a = Classifica.Values.Max();
+				string vincitori;
+				StreamReader sr = new StreamReader(path);
+				while ((vincitori = sr.ReadLine()) != null)
+				{
+					if (Classifica[vincitori] == a)
+					{
+						MessageBox.Show("Il campionato è stato vinto da:" + " " + vincitori);
+					}
+
+				}
+				sr.Close();
+
 				button1.Hide();
 			}
 			button2.Hide();
 			
 		}
 
-
+	
+		
 		public int EstIndici(Random ran, bool[] ind)
 		{
 			int indice;

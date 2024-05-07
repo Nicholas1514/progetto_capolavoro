@@ -16,7 +16,7 @@ namespace progetto_capolavoro
             classifica = new Dictionary<string, int>();
         }
 
-        public void AggiornaClassifica(string sqcasa, string sqtrasf, int golcasa, int goltrasf)
+        public Dictionary<string, int> AggiornaClassifica(string sqcasa, string sqtrasf, int golcasa, int goltrasf)
         {
             if(!classifica.ContainsKey(sqcasa))
             {
@@ -41,12 +41,13 @@ namespace progetto_capolavoro
                 classifica[sqcasa] += 1;
                 classifica[sqtrasf] += 1;
             }
+      return classifica;
         }
 
         public void AggiungiPartita(Partita partita)
         {
             partite.Add(partita);
-            AggiornaClassifica(partita.SqCasa, partita.SqTrasf, partita.GolCasa, partita.GolTrasf);
+            //AggiornaClassifica(partita.SqCasa, partita.SqTrasf, partita.GolCasa, partita.GolTrasf);
         }
     }
 }
