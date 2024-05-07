@@ -60,9 +60,9 @@
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(441, 51);
+			this.button1.Location = new System.Drawing.Point(51, 322);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(143, 23);
+			this.button1.Size = new System.Drawing.Size(350, 85);
 			this.button1.TabIndex = 2;
 			this.button1.Text = "AGGIUNGI PARTITA";
 			this.button1.UseVisualStyleBackColor = true;
@@ -108,9 +108,9 @@
 			// 
 			// button2
 			// 
-			this.button2.Location = new System.Drawing.Point(60, 337);
+			this.button2.Location = new System.Drawing.Point(51, 413);
 			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(341, 23);
+			this.button2.Size = new System.Drawing.Size(350, 78);
 			this.button2.TabIndex = 7;
 			this.button2.Text = "PROSSIMA GIORNATA";
 			this.button2.UseVisualStyleBackColor = true;
@@ -141,9 +141,9 @@
 			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2});
-			this.dataGridView1.Location = new System.Drawing.Point(618, 4);
+			this.dataGridView1.Location = new System.Drawing.Point(453, 12);
 			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.Size = new System.Drawing.Size(244, 585);
+			this.dataGridView1.Size = new System.Drawing.Size(244, 487);
 			this.dataGridView1.TabIndex = 11;
 			// 
 			// Column1
@@ -161,7 +161,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.MenuHighlight;
-			this.ClientSize = new System.Drawing.Size(863, 601);
+			this.ClientSize = new System.Drawing.Size(699, 509);
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);

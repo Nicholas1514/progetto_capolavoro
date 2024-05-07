@@ -110,7 +110,6 @@ namespace progetto_capolavoro
 			partita.AggiornaPunteggio(golcasa, goltrasf);
 			Campionato campionato = new Campionato();
 			campionato.AggiungiPartita(partita);
-			//campionato.AggiornaClassifica(textBox1.Text, textBox2.Text, golcasa, goltrasf);
 			if(partita.GolCasa > partita.GolTrasf)
 			{
 				Classifica[partita.SqCasa] += 3;
@@ -132,8 +131,10 @@ namespace progetto_capolavoro
 			*/
 			dataGridView1.Rows.Add(partita.SqCasa, Classifica[partita.SqCasa].ToString());
 			dataGridView1.Rows.Add(partita.SqTrasf, Classifica[partita.SqTrasf].ToString());
+			DataGridViewColumn squadre = dataGridView1.Columns[0];
 			DataGridViewColumn punti = dataGridView1.Columns[1];
-			dataGridView1.Sort(punti,ListSortDirection.Descending);
+			dataGridView1.Sort(squadre,ListSortDirection.Ascending);
+			dataGridView1.Sort(punti, ListSortDirection.Descending);
 
 
 
