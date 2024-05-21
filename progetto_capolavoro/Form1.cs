@@ -112,9 +112,9 @@ namespace progetto_capolavoro
 			textBox2.Text = Lsquadre[indexsqtrasf - 1];
 			int golcasa = r.Next(1, 5);
 			int goltrasf = r.Next(1, 5);
-			partita = new Partita(textBox1.Text, textBox2.Text);
+			partita = new Partita(textBox1.Text, textBox2.Text, golcasa, goltrasf);
 			SerializzaJSON();
-			partita.AggiornaPunteggio(golcasa, goltrasf);
+			//partita.AggiornaPunteggio(golcasa, goltrasf);
 			Campionato campionato = new Campionato();
 			campionato.AggiungiPartita(partita);
 			if(partita.GolCasa > partita.GolTrasf)
@@ -212,8 +212,8 @@ namespace progetto_capolavoro
 		public void SerializzaJSON()
 		{
 			string JSON = JsonSerializer.Serialize(partita);
-			StreamWriter sw = new StreamWriter(pathJSON, true);
 			MessageBox.Show(JSON);
+			StreamWriter sw = new StreamWriter(pathJSON, true);
 			if (!File.Exists(pathJSON))
 			{
 				File.Create(pathJSON);

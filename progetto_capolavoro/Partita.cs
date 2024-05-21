@@ -21,12 +21,12 @@ namespace progetto_capolavoro
             GolTrasf = 0;
         }
 
-        public Partita(string sqCasa, string sqTrasf)
+        public Partita(string sqCasa, string sqTrasf, int golcasa, int goltrasf)
         {
             SqCasa = sqCasa;
             SqTrasf = sqTrasf;
-            GolCasa = 0;
-            GolTrasf = 0;
+            GolCasa = golcasa;
+            GolTrasf = goltrasf;
         }
 
         public void AggiornaPunteggio(int golcasa, int goltrasf)
