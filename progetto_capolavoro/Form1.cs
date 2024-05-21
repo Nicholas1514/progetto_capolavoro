@@ -42,6 +42,7 @@ namespace progetto_capolavoro
 			npartite= 0;
 			PrendiDatiFile(path);
 			InserimentoChiaviClassifica(path);
+			File.Delete(pathJSON);
 			button2.Hide();
 		}
 
