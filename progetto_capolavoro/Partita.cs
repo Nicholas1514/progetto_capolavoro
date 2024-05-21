@@ -40,5 +40,7 @@ namespace progetto_capolavoro
         {
             return $"{SqCasa} {GolCasa} - {GolTrasf} {SqTrasf}";
         }
+
+
     }
 }

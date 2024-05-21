@@ -6,9 +6,12 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.LinkLabel;
+
+
 
 namespace progetto_capolavoro
 {
@@ -23,6 +26,8 @@ namespace progetto_capolavoro
 		public int indexsqtrasf;
 		public int npartite;
 		public string path;
+		public string pathJSON;
+		public Partita partita;
 		public Form1()
 		{
 			InitializeComponent();
@@ -30,6 +35,7 @@ namespace progetto_capolavoro
 			indexsqtrasf = 0;
 			ngiornata = 1;
 			path = "squadre.txt";
+			pathJSON = "file.json";
 			indici = new bool[20];
 			Lsquadre = new List<string>();
 			Classifica = new Dictionary<string, int>();
@@ -106,7 +112,8 @@ namespace progetto_capolavoro
 			textBox2.Text = Lsquadre[indexsqtrasf - 1];
 			int golcasa = r.Next(1, 5);
 			int goltrasf = r.Next(1, 5);
-			Partita partita = new Partita(textBox1.Text, textBox2.Text);
+			partita = new Partita(textBox1.Text, textBox2.Text);
+			SerializzaJSON();
 			partita.AggiornaPunteggio(golcasa, goltrasf);
 			Campionato campionato = new Campionato();
 			campionato.AggiungiPartita(partita);
@@ -131,11 +138,9 @@ namespace progetto_capolavoro
 			*/
 			dataGridView1.Rows.Add(partita.SqCasa, Classifica[partita.SqCasa].ToString());
 			dataGridView1.Rows.Add(partita.SqTrasf, Classifica[partita.SqTrasf].ToString());
-			DataGridViewColumn squadre = dataGridView1.Columns[0];
 			DataGridViewColumn punti = dataGridView1.Columns[1];
-			dataGridView1.Sort(squadre,ListSortDirection.Ascending);
 			dataGridView1.Sort(punti, ListSortDirection.Descending);
-
+			
 
 
 		}
@@ -176,7 +181,7 @@ namespace progetto_capolavoro
 				{
 					if (Classifica[vincitori] == a)
 					{
-						MessageBox.Show("Il campionato è stato vinto da:" + " " + vincitori);
+						MessageBox.Show("Il campionato è stato vinto da:" + " " + vincitori + " !!!");
 					}
 
 				}
@@ -204,6 +209,29 @@ namespace progetto_capolavoro
 			
 		}
 
+		public void SerializzaJSON()
+		{
+			string JSON = JsonSerializer.Serialize(partita);
+			StreamWriter sw = new StreamWriter(pathJSON, true);
+			MessageBox.Show(JSON);
+			if (!File.Exists(pathJSON))
+			{
+				File.Create(pathJSON);
+				sw.WriteLine(JSON);
+				sw.Close();
+			}
+			else
+			{
+				sw.WriteLine(JSON);
+				sw.Close();
+			}
+			MessageBox.Show("Partita serializzata su file JSON");
+			
+
+
+	}
+
 		
+
 	}
 }
