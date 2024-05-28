@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Campionato.cs" />
+    <Compile Include="Statistiche.cs" />
     <Compile Include="Partita.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

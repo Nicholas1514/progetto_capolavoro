@@ -20,7 +20,10 @@ namespace progetto_capolavoro
 
 		public List<string> Lsquadre;
 		public Dictionary<string, int> Classifica;
-		public bool [] indici;
+		public Dictionary<string, int> Golfatti;
+		public Dictionary<string, int> Golsubiti;
+		public Dictionary<string, int> DR;
+		public bool[] indici;
 		public int indexsqcasa;
 		public int ngiornata;
 		public int indexsqtrasf;
@@ -28,6 +31,7 @@ namespace progetto_capolavoro
 		public string path;
 		public string pathJSON;
 		public Partita partita;
+		public Statistiche s;
 		public Form1()
 		{
 			InitializeComponent();
@@ -39,7 +43,10 @@ namespace progetto_capolavoro
 			indici = new bool[20];
 			Lsquadre = new List<string>();
 			Classifica = new Dictionary<string, int>();
-			npartite= 0;
+			Golfatti = new Dictionary<string, int>();
+			Golsubiti= new Dictionary<string, int>();
+			DR = new Dictionary<string, int>();
+			npartite = 0;
 			PrendiDatiFile(path);
 			InserimentoChiaviClassifica(path);
 			File.Delete(pathJSON);
@@ -60,7 +67,9 @@ namespace progetto_capolavoro
 				while ((linee = sr.ReadLine()) != null)
 				{
 					Classifica.Add(linee, 0);
-
+					Golfatti.Add(linee, 0);
+					Golsubiti.Add(linee, 0);
+					DR.Add(linee, 0);
 				}
 				sr.Close();
 				MessageBox.Show("Dati inseriti nella dictionary dal file");
@@ -71,11 +80,11 @@ namespace progetto_capolavoro
 
 			}
 		}
-		
+
 		public void PrendiDatiFile(string path)
 		{
 			string linee;
-			if(File.Exists(path))
+			if (File.Exists(path))
 			{
 				StreamReader sr = new StreamReader(path);
 				while ((linee = sr.ReadLine()) != null)
@@ -91,22 +100,22 @@ namespace progetto_capolavoro
 				MessageBox.Show("Il file non esiste");
 
 			}
-			
+
 		}
 		private void button1_Click(object sender, EventArgs e)
 		{
 			listView1.Items.Clear();
-			
+
 			Random r = new Random();
 			npartite++;
-			if(npartite == 10)
+			if (npartite == 10)
 			{
 				MessageBox.Show("Hai aggiunto tutte le partite per questa giornata");
 				button1.Hide();
 				button2.Show();
-				
+
 			}
-		
+
 			indexsqcasa = EstIndici(r, indici);
 			indexsqtrasf = EstIndici(r, indici);
 			textBox1.Text = Lsquadre[indexsqcasa - 1];
@@ -114,15 +123,17 @@ namespace progetto_capolavoro
 			int golcasa = r.Next(1, 5);
 			int goltrasf = r.Next(1, 5);
 			partita = new Partita(textBox1.Text, textBox2.Text, golcasa, goltrasf);
+			s = new Statistiche();
+			s.DiffReti();
 			SerializzaJSON();
 			//partita.AggiornaPunteggio(golcasa, goltrasf);
 			Campionato campionato = new Campionato();
 			campionato.AggiungiPartita(partita);
-			if(partita.GolCasa > partita.GolTrasf)
+			if (partita.GolCasa > partita.GolTrasf)
 			{
 				Classifica[partita.SqCasa] += 3;
 			}
-			else if(partita.GolTrasf > partita.GolCasa)
+			else if (partita.GolTrasf > partita.GolCasa)
 			{
 				Classifica[partita.SqTrasf] += 3;
 			}
@@ -133,15 +144,21 @@ namespace progetto_capolavoro
 			}
 			listView1.Items.Add($"{golcasa} - {goltrasf}");
 			listView2.Items.Add(partita.ToString());
+			Golfatti[partita.SqCasa] += partita.GolCasa;
+			Golfatti[partita.SqTrasf] += partita.GolTrasf;
+			Golsubiti[partita.SqCasa] += partita.GolTrasf;
+			Golsubiti[partita.SqTrasf] += partita.GolCasa;
+			DR[partita.SqCasa] = Golfatti[partita.SqCasa] - Golsubiti[partita.SqCasa];
+			DR[partita.SqTrasf] = Golfatti[partita.SqTrasf] - Golsubiti[partita.SqTrasf];
 			/*
 			listView3.Items.Add($"{partita.SqCasa} " + Classifica[partita.SqCasa].ToString());
 			listView3.Items.Add($"{partita.SqTrasf} " + Classifica[partita.SqTrasf].ToString());
 			*/
-			dataGridView1.Rows.Add(partita.SqCasa, Classifica[partita.SqCasa].ToString());
-			dataGridView1.Rows.Add(partita.SqTrasf, Classifica[partita.SqTrasf].ToString());
+			dataGridView1.Rows.Add(partita.SqCasa, Classifica[partita.SqCasa].ToString(), Golfatti[partita.SqCasa].ToString(), Golsubiti[partita.SqCasa].ToString(), DR[partita.SqCasa].ToString());
+			dataGridView1.Rows.Add(partita.SqTrasf, Classifica[partita.SqTrasf].ToString(), Golfatti[partita.SqTrasf].ToString(), Golsubiti[partita.SqTrasf].ToString(), DR[partita.SqTrasf].ToString());
 			DataGridViewColumn punti = dataGridView1.Columns[1];
 			dataGridView1.Sort(punti, ListSortDirection.Descending);
-			
+
 
 
 		}
@@ -152,8 +169,8 @@ namespace progetto_capolavoro
 
 		private void button2_Click(object sender, EventArgs e)
 		{
-			
-			
+
+
 			listView1.Items.Clear();
 			listView2.Items.Clear();
 			dataGridView1.Rows.Clear();
@@ -167,7 +184,7 @@ namespace progetto_capolavoro
 			npartite = 0;
 			PrendiDatiFile(path);
 
-			if(ngiornata < 38)
+			if (ngiornata < 38)
 			{
 				ngiornata++;
 				label4.Text = $"GIORNATA {ngiornata}";
@@ -191,11 +208,11 @@ namespace progetto_capolavoro
 				button1.Hide();
 			}
 			button2.Hide();
-			
+
 		}
 
-	
-		
+
+
 		public int EstIndici(Random ran, bool[] ind)
 		{
 			int indice;
@@ -203,17 +220,17 @@ namespace progetto_capolavoro
 			{
 				indice = ran.Next(1, 21);
 			} while (ind[indice - 1] == true);
-			ind[indice- 1] = true;
-	
+			ind[indice - 1] = true;
+
 
 			return indice;
-			
+
 		}
 
 		public void SerializzaJSON()
 		{
 			string JSON = JsonSerializer.Serialize(partita);
-			MessageBox.Show(JSON);
+			//MessageBox.Show(JSON);
 			StreamWriter sw = new StreamWriter(pathJSON, true);
 			if (!File.Exists(pathJSON))
 			{
@@ -226,13 +243,13 @@ namespace progetto_capolavoro
 				sw.WriteLine(JSON);
 				sw.Close();
 			}
-			MessageBox.Show("Partita serializzata su file JSON");
-			
+			//MessageBox.Show("Partita serializzata su file JSON");
 
 
-	}
 
-		
+		}
+
+
 
 	}
 }

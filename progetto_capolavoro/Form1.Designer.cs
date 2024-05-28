@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.button1 = new System.Windows.Forms.Button();
@@ -41,6 +42,9 @@
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -140,10 +144,13 @@
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
-            this.Column2});
+            this.Column2,
+            this.Column3,
+            this.Column4,
+            this.Column5});
 			this.dataGridView1.Location = new System.Drawing.Point(453, 12);
 			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.Size = new System.Drawing.Size(244, 487);
+			this.dataGridView1.Size = new System.Drawing.Size(549, 487);
 			this.dataGridView1.TabIndex = 11;
 			// 
 			// Column1
@@ -156,12 +163,28 @@
 			this.Column2.HeaderText = "PUNTI";
 			this.Column2.Name = "Column2";
 			// 
+			// Column3
+			// 
+			this.Column3.HeaderText = "GOL FATTI";
+			this.Column3.Name = "Column3";
+			// 
+			// Column4
+			// 
+			this.Column4.HeaderText = "GOL SUBITI";
+			this.Column4.Name = "Column4";
+			// 
+			// Column5
+			// 
+			this.Column5.HeaderText = "DIFFERENZA RETI";
+			this.Column5.Name = "Column5";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.MenuHighlight;
-			this.ClientSize = new System.Drawing.Size(699, 509);
+			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+			this.ClientSize = new System.Drawing.Size(1025, 509);
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
@@ -197,6 +220,9 @@
 		private System.Windows.Forms.DataGridView dataGridView1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
 	}
 }
 
