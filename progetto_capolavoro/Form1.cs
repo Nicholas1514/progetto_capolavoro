@@ -93,14 +93,14 @@ namespace progetto_capolavoro
 
 				}
 				sr.Close();
-				MessageBox.Show("Dati inseriti nella lista dal file");
+				//MessageBox.Show("Dati inseriti nella lista dal file");
 			}
 			else
 			{
 				MessageBox.Show("Il file non esiste");
 
 			}
-
+			
 		}
 		private void button1_Click(object sender, EventArgs e)
 		{
@@ -110,7 +110,7 @@ namespace progetto_capolavoro
 			npartite++;
 			if (npartite == 10)
 			{
-				MessageBox.Show("Hai aggiunto tutte le partite per questa giornata");
+				//MessageBox.Show("Hai aggiunto tutte le partite per questa giornata");
 				button1.Hide();
 				button2.Show();
 
@@ -120,8 +120,8 @@ namespace progetto_capolavoro
 			indexsqtrasf = EstIndici(r, indici);
 			textBox1.Text = Lsquadre[indexsqcasa - 1];
 			textBox2.Text = Lsquadre[indexsqtrasf - 1];
-			int golcasa = r.Next(1, 5);
-			int goltrasf = r.Next(1, 5);
+			int golcasa = r.Next(0, 4);
+			int goltrasf = r.Next(0, 4);
 			partita = new Partita(textBox1.Text, textBox2.Text, golcasa, goltrasf);
 			s = new Statistiche();
 			s.DiffReti();
@@ -154,11 +154,13 @@ namespace progetto_capolavoro
 			listView3.Items.Add($"{partita.SqCasa} " + Classifica[partita.SqCasa].ToString());
 			listView3.Items.Add($"{partita.SqTrasf} " + Classifica[partita.SqTrasf].ToString());
 			*/
+			
 			dataGridView1.Rows.Add(partita.SqCasa, Classifica[partita.SqCasa].ToString(), Golfatti[partita.SqCasa].ToString(), Golsubiti[partita.SqCasa].ToString(), DR[partita.SqCasa].ToString());
+			
 			dataGridView1.Rows.Add(partita.SqTrasf, Classifica[partita.SqTrasf].ToString(), Golfatti[partita.SqTrasf].ToString(), Golsubiti[partita.SqTrasf].ToString(), DR[partita.SqTrasf].ToString());
+			
 			DataGridViewColumn punti = dataGridView1.Columns[1];
 			dataGridView1.Sort(punti, ListSortDirection.Descending);
-
 
 
 		}
@@ -183,7 +185,7 @@ namespace progetto_capolavoro
 			Lsquadre = new List<string>();
 			npartite = 0;
 			PrendiDatiFile(path);
-
+	
 			if (ngiornata < 38)
 			{
 				ngiornata++;
