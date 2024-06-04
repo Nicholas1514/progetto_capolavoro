@@ -8,11 +8,13 @@ namespace progetto_capolavoro
 {
     public class Partita
     {
+        //attributi
         public string SqCasa {  get; set; }
         public string SqTrasf {  get; set; }
         public int GolCasa { get; set; }
         public int GolTrasf { get;set; }
-
+        
+        //costruttore senza parametri
         public Partita()
         {
             SqCasa = string.Empty;
@@ -21,6 +23,7 @@ namespace progetto_capolavoro
             GolTrasf = 0;
         }
 
+        //costruttore con parametri
         public Partita(string sqCasa, string sqTrasf, int golcasa, int goltrasf)
         {
             SqCasa = sqCasa;
@@ -29,13 +32,15 @@ namespace progetto_capolavoro
             GolTrasf = goltrasf;
         }
 
+        
         public void AggiornaPunteggio(int golcasa, int goltrasf)
         {
             Random r = new Random();
             GolCasa = golcasa;
             GolTrasf = goltrasf;
         }
-
+        
+        //metodo ToString()
         public override string ToString()
         {
             return $"{SqCasa} {GolCasa} - {GolTrasf} {SqTrasf}";

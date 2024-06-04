@@ -31,6 +31,7 @@ namespace progetto_capolavoro
 		public string path;
 		public string pathJSON;
 		public Partita partita;
+		public Campionato camp;
 		public Statistiche s;
 		public Form1()
 		{
@@ -44,7 +45,7 @@ namespace progetto_capolavoro
 			Lsquadre = new List<string>();
 			Classifica = new Dictionary<string, int>();
 			Golfatti = new Dictionary<string, int>();
-			Golsubiti= new Dictionary<string, int>();
+			Golsubiti = new Dictionary<string, int>();
 			DR = new Dictionary<string, int>();
 			npartite = 0;
 			PrendiDatiFile(path);
@@ -100,7 +101,7 @@ namespace progetto_capolavoro
 				MessageBox.Show("Il file non esiste");
 
 			}
-			
+
 		}
 		private void button1_Click(object sender, EventArgs e)
 		{
@@ -123,25 +124,12 @@ namespace progetto_capolavoro
 			int golcasa = r.Next(0, 4);
 			int goltrasf = r.Next(0, 4);
 			partita = new Partita(textBox1.Text, textBox2.Text, golcasa, goltrasf);
-			s = new Statistiche();
-			s.DiffReti();
+			camp = new Campionato();
+			camp.AggiungiPartita(partita);
+			
 			SerializzaJSON();
 			//partita.AggiornaPunteggio(golcasa, goltrasf);
-			Campionato campionato = new Campionato();
-			campionato.AggiungiPartita(partita);
-			if (partita.GolCasa > partita.GolTrasf)
-			{
-				Classifica[partita.SqCasa] += 3;
-			}
-			else if (partita.GolTrasf > partita.GolCasa)
-			{
-				Classifica[partita.SqTrasf] += 3;
-			}
-			else
-			{
-				Classifica[partita.SqCasa] += 1;
-				Classifica[partita.SqTrasf] += 1;
-			}
+			AggiornaClassifica();
 			listView1.Items.Add($"{golcasa} - {goltrasf}");
 			listView2.Items.Add(partita.ToString());
 			Golfatti[partita.SqCasa] += partita.GolCasa;
@@ -150,16 +138,12 @@ namespace progetto_capolavoro
 			Golsubiti[partita.SqTrasf] += partita.GolCasa;
 			DR[partita.SqCasa] = Golfatti[partita.SqCasa] - Golsubiti[partita.SqCasa];
 			DR[partita.SqTrasf] = Golfatti[partita.SqTrasf] - Golsubiti[partita.SqTrasf];
-			/*
-			listView3.Items.Add($"{partita.SqCasa} " + Classifica[partita.SqCasa].ToString());
-			listView3.Items.Add($"{partita.SqTrasf} " + Classifica[partita.SqTrasf].ToString());
-			*/
-			
+			//dataGridView1.Columns[1].SortMode = DataGridViewColumnSortMode.Programmatic;
 			dataGridView1.Rows.Add(partita.SqCasa, Classifica[partita.SqCasa].ToString(), Golfatti[partita.SqCasa].ToString(), Golsubiti[partita.SqCasa].ToString(), DR[partita.SqCasa].ToString());
-			
 			dataGridView1.Rows.Add(partita.SqTrasf, Classifica[partita.SqTrasf].ToString(), Golfatti[partita.SqTrasf].ToString(), Golsubiti[partita.SqTrasf].ToString(), DR[partita.SqTrasf].ToString());
-			
+
 			DataGridViewColumn punti = dataGridView1.Columns[1];
+
 			dataGridView1.Sort(punti, ListSortDirection.Descending);
 
 
@@ -185,7 +169,7 @@ namespace progetto_capolavoro
 			Lsquadre = new List<string>();
 			npartite = 0;
 			PrendiDatiFile(path);
-	
+
 			if (ngiornata < 38)
 			{
 				ngiornata++;
@@ -213,6 +197,22 @@ namespace progetto_capolavoro
 
 		}
 
+		public void AggiornaClassifica()
+		{
+			if (partita.GolCasa > partita.GolTrasf)
+			{
+				Classifica[partita.SqCasa] += 3;
+			}
+			else if (partita.GolTrasf > partita.GolCasa)
+			{
+				Classifica[partita.SqTrasf] += 3;
+			}
+			else
+			{
+				Classifica[partita.SqCasa] += 1;
+				Classifica[partita.SqTrasf] += 1;
+			}
+		}
 
 
 		public int EstIndici(Random ran, bool[] ind)
